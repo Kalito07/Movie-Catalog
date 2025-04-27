@@ -1,6 +1,15 @@
-var builder = WebApplication.CreateBuilder(args);
+using Supabase;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<Supabase.Client>(provider =>
+{
+    string Url = "https://strhgrynpbwxqonocsyd.supabase.co";
+    string Key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0cmhncnlucGJ3eHFvbm9jc3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NjAwNTIsImV4cCI6MjA2MTMzNjA1Mn0._ztDIrGzHd1mQkHqY2dwt6_uQLrI3GQwYK45HDEXMA0"; // Replace with your Supabase API key
+    return new Supabase.Client(Url, Key);
+});
+
+builder.Services.AddScoped<MovieService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -13,7 +22,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();

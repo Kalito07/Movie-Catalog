@@ -2,20 +2,27 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Catalog.Models;
 
-namespace Movie_Catalog.Controllers;
-
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly MovieService _movieService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(MovieService movieService)
     {
-        _logger = logger;
+        _movieService = movieService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        try
+        {
+            await _movieService.Initialize();
+            return View();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return View("Error");
+        }
     }
 
     public IActionResult Privacy()
