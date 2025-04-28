@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Movie_Catalog.Data.Models;
 using Movie_Catalog.Models;
 
 namespace Movie_Catalog.Controllers;
@@ -7,14 +8,18 @@ namespace Movie_Catalog.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly MovieCatalogContext _context;
+    
+    public HomeController(ILogger<HomeController> logger, MovieCatalogContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
     public IActionResult Index()
     {
+        _context.Movies.Add(new Movie() { Title = "Test" });
+        _context.SaveChanges();
         return View();
     }
 
