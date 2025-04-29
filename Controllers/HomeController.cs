@@ -18,8 +18,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        _context.Movies.Add(new Movie() { Title = "Test" });
-        _context.SaveChanges();
         return View();
     }
 
